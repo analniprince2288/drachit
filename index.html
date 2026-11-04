@@ -3,130 +3,157 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0b10">
-  <meta name="description" content="Драчить бесконечно 💀 — бессмысленный, но вечный мемный счётчик.">
-  <title>ДРАЧИТЬ ∞ 💀</title>
-  <style>
-    :root{color-scheme:dark;--bg:#09090d;--card:#14141c;--ink:#f4f2ff;--muted:#9591a7;--pink:#fe43ae;--purple:#9e55ff;--line:#34313f;--green:#78ffc9}
-    *{box-sizing:border-box}
-    html,body{min-height:100%;margin:0}
-    body{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse 40% 28% at 50% 30%,#6f1f5b3b,transparent 90%),radial-gradient(ellipse 48% 35% at 100% 100%,#402f8733,transparent 80%),var(--bg);color:var(--ink);overflow-x:hidden}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(#ffffff04 1px,transparent 1px),linear-gradient(90deg,#ffffff04 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,#0007,transparent 88%)}
-    .shell{width:min(100% - 32px,920px);min-height:100svh;margin:0 auto;display:flex;flex-direction:column;position:relative;z-index:1}
-    header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:28px 2px}
-    .brand{display:flex;align-items:center;gap:9px;font-size:13px;letter-spacing:2px;font-weight:900}
-    .brand-dot{width:11px;height:11px;background:var(--pink);box-shadow:0 0 18px var(--pink);border-radius:100%}
-    .chip{font:800 11px ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:1px;color:var(--green);border:1px solid #56c09b40;border-radius:999px;padding:9px 13px;background:#57fbb50d}
-    main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 0 60px;text-align:center}
-    .eyebrow{margin:0 0 22px;color:var(--pink);letter-spacing:5px;font-size:12px;font-weight:900}
-    h1{font-size:clamp(49px,10vw,115px);line-height:.96;letter-spacing:-.085em;margin:0 0 20px;font-weight:1000;word-break:keep-all;text-shadow:0 15px 70px #ff3a9d25}
-    h1 span{background:linear-gradient(110deg,#ff4fa7 5%,#d279ff 60%,#875bff);background-clip:text;-webkit-background-clip:text;color:transparent}
-    .sub{font-size:clamp(14px,2.4vw,17px);color:var(--muted);margin:0 0 32px;line-height:1.6}
-    .skull{font-size:clamp(60px,10vw,104px);margin:0 0 12px;filter:drop-shadow(0 0 35px #e24eaa40);display:inline-block;user-select:none;transform-origin:50% 85%}
-    .running .skull{animation:wobble 900ms ease-in-out infinite alternate}
-    @keyframes wobble{from{transform:rotate(-9deg) scale(.98)}to{transform:rotate(9deg) scale(1.06)}}
-    .counter-panel{width:min(100%,670px);border:1px solid #ffffff18;border-radius:26px;padding:26px 20px 20px;background:linear-gradient(145deg,#20202aee,#111117f5);box-shadow:0 18px 100px #0008,0 0 50px #d439a909;position:relative;overflow:hidden}
-    .counter-panel:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(110deg,transparent 20%,#ffffff08 50%,transparent 80%);transform:translateX(-150%)}
-    .running .counter-panel:after{animation:shine 6s linear infinite}
-    @keyframes shine{to{transform:translateX(150%)}}
-    .counter-label{font-size:11px;font-weight:900;letter-spacing:2.5px;color:#aaa5be}
-    .count{margin:13px 0;font:800 clamp(43px,8vw,80px)/1.08 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:-.06em;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-    .infinity{color:var(--pink);font-weight:900;font-size:19px}
-    .status{display:flex;align-items:center;justify-content:center;gap:8px;color:#a2a0b4;font-size:13px;margin-top:15px}
-    .led{width:8px;height:8px;background:#ffbd60;border-radius:50%;box-shadow:0 0 8px currentColor}
-    .running .led{background:var(--green);box-shadow:0 0 12px #78ffc9}
-    .actions{display:flex;gap:12px;width:min(100%,670px);margin:20px auto 0}
-    button{font-family:inherit;cursor:pointer;transition:transform .13s,filter .13s,border-color .13s}
-    button:hover{filter:brightness(1.12);transform:translateY(-2px)}
-    button:active{transform:translateY(1px)}
-    button:focus-visible,input:focus-visible{outline:3px solid #d18fff;outline-offset:4px}
-    .primary{flex:1;min-height:66px;border:0;border-radius:18px;background:linear-gradient(100deg,#ff3c9d,#9654ff);box-shadow:0 12px 40px #c9358d36;color:white;font-weight:1000;font-size:clamp(17px,3vw,24px);letter-spacing:1px}
-    .secondary{min-width:120px;background:#21202b;border:1px solid #454150;border-radius:18px;color:#f0eafb;font-size:16px;font-weight:800;padding:0 20px}
-    .settings{width:min(100%,670px);margin:20px auto 0;display:flex;align-items:center;gap:20px;padding:18px 20px;background:#16151d9e;border:1px solid #2e2b39;border-radius:16px}
-    .setting-text{white-space:nowrap;color:#b3adc5;font-size:13px;font-weight:700}
-    input[type=range]{flex:1;min-width:70px;accent-color:var(--pink);cursor:pointer}
-    #speedValue{font:800 13px ui-monospace,Consolas,monospace;color:white;min-width:55px;text-align:right}
-    .ticker{width:100%;border-top:1px solid #2a2733;border-bottom:1px solid #2a2733;overflow:hidden;white-space:nowrap;color:#a69bba;background:#110f16}
-    .ticker-track{display:inline-block;animation:marquee 22s linear infinite;padding:15px 0;font-size:11px;font-weight:900;letter-spacing:3px}
-    @keyframes marquee{to{transform:translateX(-50%)}}
-    footer{color:#756f85;font-size:12px;display:flex;justify-content:space-between;gap:14px;align-items:center;padding:20px 2px 28px}
-    footer a{color:#c5b8dd;text-decoration:none}
-    @media(max-width:560px){header{padding-top:18px}main{padding-top:65px;padding-bottom:58px}.eyebrow{letter-spacing:3px}.actions{flex-direction:column}.secondary{min-height:53px}.settings{gap:12px;padding:15px 13px}.setting-text{font-size:11px}.counter-panel{padding:24px 12px 20px}.chip{font-size:9px;padding:8px 9px}footer{flex-direction:column;text-align:center}}
-    @media(prefers-reduced-motion:reduce){*,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-  </style>
+  <meta name="theme-color" content="#0c0c13">
+  <meta name="description" content="ДРАЧИТЬ: Хроники Бесконечности. Тёмная браузерная RPG с квестами, боями, классами, экипировкой и развитием персонажа.">
+  <title>ДРАЧИТЬ III — Хроники Бесконечности</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./game.js"></script>
 </head>
-<body class="running">
-  <div class="shell">
-    <header><div class="brand"><span class="brand-dot"></span> DRACHIT<span style="color:var(--pink)">.EXE</span></div><div class="chip">● SYSTEM ONLINE</div></header>
+<body>
+  <div class="starfield" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="wordmark" href="#top" aria-label="ДРАЧИТЬ III — главная">
+        <span class="wordmark-mark" aria-hidden="true">✦</span>
+        <span>ДРАЧИТЬ<span class="roman">III</span><small>ХРОНИКИ БЕСКОНЕЧНОСТИ</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="online-indicator"><span class="status-dot"></span><span id="stateLabel">РИТУАЛ АКТИВЕН</span></div>
+        <div class="top-wallet" title="Золото"><span class="gold-symbol">◈</span> <strong id="headerCoins">0</strong></div>
+        <button class="ghost small" id="soundBtn" type="button" aria-pressed="false" title="Звуковые эффекты">ЗВУК: ВЫКЛ.</button>
+      </div>
+    </header>
+
+    <section class="intro" id="top">
+      <div class="chapter-label"><span class="rule"></span> ГЛАВА III <span class="rule"></span></div>
+      <h1>ПУТЬ <em>БЕСКОНЕЧНОГО</em> ДЕЙСТВИЯ</h1>
+      <p>Пока длится цикл, растёт сила. Пока живёт воля, врата остаются открытыми.</p>
+      <div class="intro-stats">
+        <div><span>ВСЕГО СОВЕРШЕНО</span><strong id="heroTotal">0</strong></div>
+        <span class="intro-divider"></span>
+        <div><span>СИЛА ЦИКЛА</span><strong id="heroRate">0/сек</strong></div>
+        <span class="intro-divider"></span>
+        <div><span>ПОБЕДЫ</span><strong id="heroKills">0</strong></div>
+      </div>
+    </section>
+
     <main>
-      <div class="skull" aria-hidden="true">💀</div>
-      <p class="eyebrow">БЕСКОНЕЧНЫЙ РЕЖИМ АКТИВИРОВАН</p>
-      <h1>ДРАЧИТЬ <span>∞</span></h1>
-      <p class="sub">Процесс запущен. Остановить можно.<br>Но зачем? 💀</p>
-      <div class="counter-panel">
-        <div class="counter-label">КОЛИЧЕСТВО ИТЕРАЦИЙ</div>
-        <div class="count" id="counter" aria-live="off">0</div>
-        <div class="infinity">∞ NO LIMITS ∞</div>
-        <div class="status"><span class="led"></span><span id="statusText">ДРАЧИТЬ В ПРОЦЕССЕ...</span></div>
+      <div class="dashboard">
+        <aside class="panel hero-card" aria-label="Персонаж">
+          <div class="panel-caption"><span>01 / ПЕРСОНАЖ</span><span class="tiny-sigil">✧</span></div>
+          <div class="portrait-wrap" aria-hidden="true">
+            <div class="portrait-glow"></div>
+            <svg class="hero-portrait" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Воин в шлеме">
+              <defs>
+                <linearGradient id="armor" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#9c8cbd"/><stop offset=".5" stop-color="#3f3856"/><stop offset="1" stop-color="#191723"/></linearGradient>
+                <linearGradient id="cape" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#782d4a"/><stop offset="1" stop-color="#2c172c"/></linearGradient>
+              </defs>
+              <circle cx="120" cy="112" r="100" fill="none" stroke="#a9855e" stroke-width=".8" opacity=".5"/>
+              <circle cx="120" cy="112" r="84" fill="none" stroke="#a9855e" stroke-width=".8" stroke-dasharray="3 10" opacity=".55"/>
+              <path d="M35 232L57 154 89 139 151 139 183 154 205 232Z" fill="url(#cape)" stroke="#ba7b63" stroke-width="2"/>
+              <path d="M58 232Q65 164 96 154L120 173 144 154Q175 168 182 232Z" fill="url(#armor)" stroke="#927a8d" stroke-width="2"/>
+              <path d="M92 151L120 180 148 151 139 131H101Z" fill="#17131f" stroke="#b29073" stroke-width="2"/>
+              <path d="M86 69L118 46 153 68 158 112 139 153 100 153 82 111Z" fill="url(#armor)" stroke="#c1a17c" stroke-width="2.4"/>
+              <path d="M98 90L120 107 143 90 143 123 120 141 97 123Z" fill="#11121d" stroke="#9b7883" stroke-width="1"/>
+              <path d="M92 91L120 105 148 91" fill="none" stroke="#e7b88a" stroke-width="2"/>
+              <path d="M95 107L114 112 109 120 96 116ZM145 107L126 112 131 120 144 116Z" fill="#d84b75"/>
+              <path d="M120 42L120 151" fill="none" stroke="#bb8f70" stroke-width="3"/>
+              <path d="M119 30L102 62 119 53 136 62Z" fill="#7d294a" stroke="#d49c73" stroke-width="2"/>
+              <path d="M66 175L96 158 120 183 144 158 174 175" fill="none" stroke="#e7bf88" stroke-width="2"/>
+              <path d="M111 189L120 178 129 189 120 203Z" fill="#ca6686" stroke="#e3a278" stroke-width="1"/>
+            </svg>
+            <span class="portrait-corner c1">✦</span><span class="portrait-corner c2">✦</span>
+          </div>
+          <div class="hero-identity"><span id="classTitle">РЫЦАРЬ НАЖИМА</span><h2 id="heroName">НЕУТОМИМЫЙ</h2><p>УРОВЕНЬ <b id="heroLevel">1</b> <span class="middot">·</span> <span id="rankText">Посвящённый</span></p></div>
+          <div class="xp-track"><div class="track-label"><span>ОПЫТ</span><strong id="xpText">0 / 100</strong></div><div class="progress thin"><i id="xpFill"></i></div></div>
+          <div class="rpg-bars">
+            <div><div class="track-label"><span>ЗДОРОВЬЕ</span><strong id="healthText">120 / 120</strong></div><div class="progress red"><i id="healthFill"></i></div></div>
+            <div><div class="track-label"><span>ЭНЕРГИЯ</span><strong id="energyText">50 / 100</strong></div><div class="progress blue"><i id="energyFill"></i></div></div>
+          </div>
+          <div class="character-stats">
+            <div><span>⚔ АТАКА</span><strong id="statAtk">0</strong></div>
+            <div><span>✧ КРИТ. УДАР</span><strong id="statCrit">5%</strong></div>
+            <div><span>◈ СИЛА КЛИКА</span><strong id="statClick">1</strong></div>
+            <div><span>⌁ АВТОПОТОК</span><strong id="statFlow">0/сек</strong></div>
+          </div>
+          <div class="class-select">
+            <div class="section-kicker">ПУТЬ ВОИНА <span class="class-hint">смена доступна</span></div>
+            <div class="class-options" id="classOptions"></div>
+          </div>
+        </aside>
+
+        <section class="panel ritual-panel" aria-label="Ритуал">
+          <div class="panel-caption"><span>02 / ЗАЛ РИТУАЛА</span><span id="ritualModeLabel">АВТОНОМНЫЙ ЦИКЛ</span></div>
+          <div class="ritual-header"><span class="eyebrow">ОБЩАЯ МОЩЬ</span><h2 id="mainCounter">0</h2><span class="ritual-sub">ЕДИНИЦ НЕПРЕРЫВНОГО ДЕЙСТВИЯ</span></div>
+          <div class="sigil-stage" id="sigilStage">
+            <div class="sigil-outer"></div><div class="sigil-middle"></div><div class="sigil-inner"></div>
+            <button type="button" id="sigilButton" class="sigil-button" title="Драчить" aria-label="Драчить">
+              <svg viewBox="0 0 180 180" width="134" height="134" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="90" cy="90" r="74" fill="none" stroke="#b78978" stroke-width="1" opacity=".55"/>
+                <path d="M90 7L108 45 148 24 137 66 174 89 137 108 150 152 109 138 90 174 70 138 29 152 42 108 7 89 42 67 32 24 70 45Z" fill="none" stroke="#ae815f" opacity=".75" stroke-width="1.2"/>
+                <path d="M54 72L67 46 90 37 113 46 126 72 122 109 105 122 103 142 77 142 75 122 58 109Z" fill="#2c2231" stroke="#d9a77c" stroke-width="2.7"/>
+                <path d="M60 76L82 86 71 96 62 92ZM120 76L98 86 109 96 118 92Z" fill="#e36c7e"/>
+                <path d="M90 95L82 110 98 110Z" fill="#c3a0a3"/>
+                <path d="M72 120L72 131 80 131 80 120M84 120L84 135 93 135 93 120M97 120L97 132 107 132 107 120" stroke="#aa91a1" stroke-width="3" fill="none"/>
+                <path d="M88 42L90 64 92 42" stroke="#dfa180" stroke-width="2"/>
+              </svg>
+              <span class="sigil-flash"></span>
+            </button>
+            <span class="sigil-side sigil-left">ᚦ</span><span class="sigil-side sigil-right">ᚷ</span>
+          </div>
+          <div class="action-area">
+            <button class="primary-action" id="hitBtn" type="button"><span>ДРАЧИТЬ</span><small>РУЧНОЕ ДЕЙСТВИЕ · ПРОБЕЛ</small></button>
+            <div class="combat-hint" id="combatHint">Каждое действие укрепляет персонажа и питает цикл.</div>
+          </div>
+          <div class="cycle-control">
+            <div class="section-kicker">ПРОТОКОЛ ДЕЙСТВИЯ</div>
+            <div class="modes" id="modes">
+              <button type="button" data-mode="manual" class="mode" aria-pressed="false">РУЧНОЙ<small>Под контролем</small></button>
+              <button type="button" data-mode="auto" class="mode" aria-pressed="true">АВТО<small>Постоянный</small></button>
+              <button type="button" data-mode="turbo" class="mode" aria-pressed="false">ТУРБО<small>Мощность ×4</small></button>
+              <button type="button" data-mode="chaos" class="mode" aria-pressed="false">ХАОС<small>Нестабильный</small></button>
+            </div>
+            <div class="speed-line"><label for="speed">СКОРОСТЬ ЦИКЛА</label><input id="speed" type="range" min="1" max="100" value="12"><strong id="speedValue">12 / сек</strong></div>
+            <div class="cycle-meta"><span>СЕРИЯ: <b id="comboText">×0</b></span><span>РУЧНЫХ: <b id="manualText">0</b></span><span>АВТО: <b id="autoText">0</b></span></div>
+          </div>
+        </section>
+
+        <aside class="panel battlefield" aria-label="Экспедиции">
+          <div class="panel-caption"><span>03 / ЭКСПЕДИЦИЯ</span><span>⚔ PVE</span></div>
+          <div class="battle-header"><span class="eyebrow">ТЕКУЩАЯ ОБЛАСТЬ</span><h2 id="zoneTitle">Пепельные врата</h2><p id="zoneSubtitle">Там, где начинается цикл.</p></div>
+          <div class="zone-switch" id="zones"></div>
+          <div class="enemy-portrait" id="enemyPortrait" aria-hidden="true"><div class="enemy-halo"></div><div id="enemyGlyph" class="enemy-glyph">♜</div><div class="enemy-flame left-flame"></div><div class="enemy-flame right-flame"></div></div>
+          <div class="enemy-meta"><span class="eyebrow" id="enemyKind">СТРАЖ ЗЕМЕЛЬ</span><h3 id="enemyName">Страж Пепельных врат</h3><p id="enemyDescription">Начните экспедицию, чтобы вступить в бой.</p></div>
+          <div class="enemy-health"><div class="track-label"><span>ЗДОРОВЬЕ ПРОТИВНИКА</span><strong id="enemyHPText">—</strong></div><div class="progress enemy"><i id="enemyHPFill"></i></div></div>
+          <div class="battle-controls"><button id="encounterBtn" class="outline-gold" type="button">НАЧАТЬ ЭКСПЕДИЦИЮ</button><button id="bossBtn" class="outline-muted" type="button">ПРИЗВАТЬ ВЛАДЫКУ</button></div>
+          <div class="battle-skills">
+            <button id="skillBtn" type="button" class="skill"><span>✴</span><span>ПРОБОЙ ПЕЧАТИ<small>25 энергии · усиленный удар</small></span></button>
+            <button id="potionBtn" type="button" class="skill"><span>✚</span><span>ЭЛИКСИР<small><b id="potionCount">0</b> шт. · +45 здоровья</small></span></button>
+          </div>
+          <label class="autobattle"><input type="checkbox" id="autobattle"><span class="switch" aria-hidden="true"></span><span>АВТОБОЙ <small>Один удар каждые 0,8 сек.</small></span></label>
+          <div class="battle-footer"><span id="battleState">ОЖИДАНИЕ ПРИКАЗА</span><span id="battleTime">—</span></div>
+        </aside>
       </div>
-      <div class="actions">
-        <button class="primary" id="toggle" type="button">⏸ ПРИОСТАНОВИТЬ</button>
-        <button class="secondary" id="reset" type="button">↺ СБРОС</button>
-      </div>
-      <div class="settings"><label class="setting-text" for="speed">СКОРОСТЬ 💀</label><input id="speed" type="range" min="1" max="100" value="12" step="1"><span id="speedValue">12×/сек</span></div>
+
+      <section class="codex panel" aria-label="Управление персонажем">
+        <div class="codex-header"><div><span class="eyebrow">АРХИВ ОРДЕНА</span><h2>ЗАЛ ПОДГОТОВКИ</h2></div><span class="codex-status">ПРОГРЕСС СОХРАНЯЕТСЯ АВТОМАТИЧЕСКИ</span></div>
+        <div class="tabs" role="tablist" aria-label="Разделы игры">
+          <button type="button" class="tab active" data-tab="quests" role="tab" aria-controls="pane-quests" aria-selected="true">ЗАДАНИЯ <small id="questsBadge">0/0</small></button>
+          <button type="button" class="tab" data-tab="shop" role="tab" aria-controls="pane-shop" aria-selected="false">УЛУЧШЕНИЯ</button>
+          <button type="button" class="tab" data-tab="inventory" role="tab" aria-controls="pane-inventory" aria-selected="false">СНАРЯЖЕНИЕ <small id="inventoryBadge">0</small></button>
+          <button type="button" class="tab" data-tab="achievements" role="tab" aria-controls="pane-achievements" aria-selected="false">ДОСТИЖЕНИЯ</button>
+          <button type="button" class="tab" data-tab="journal" role="tab" aria-controls="pane-journal" aria-selected="false">ЛЕТОПИСЬ</button>
+        </div>
+        <div class="tab-pane" id="pane-quests" role="tabpanel"><div class="pane-heading"><h3>ПОРУЧЕНИЯ ОРДЕНА</h3><p>Исполненные задачи приносят опыт, золото и припасы.</p></div><div id="questsGrid" class="cards-grid"></div></div>
+        <div class="tab-pane" id="pane-shop" role="tabpanel" hidden><div class="pane-heading"><h3>КУЗНИЦА ЦИКЛА</h3><p>Вложите добытое золото в постоянные улучшения.</p></div><div id="shopGrid" class="cards-grid"></div><div class="extra-shop"><div><strong>ЗАПАСЫ ОРДЕНА</strong><small>Эликсир восстанавливает 45 здоровья в бою.</small></div><button type="button" id="buyPotion" class="outline-gold">КУПИТЬ ЭЛИКСИР · ◈ 90</button></div></div>
+        <div class="tab-pane" id="pane-inventory" role="tabpanel" hidden><div class="pane-heading"><h3>АРСЕНАЛ НЕУТОМИМОГО</h3><p>Снаряжение усиливает урон, здоровье и скорость автоматического цикла.</p></div><div class="equipment" id="equipped"></div><div class="inventory-list" id="inventoryList"></div></div>
+        <div class="tab-pane" id="pane-achievements" role="tabpanel" hidden><div class="pane-heading"><h3>ПЕЧАТИ ПОБЕДЫ</h3><p>Свидетельства пройденного пути.</p></div><div class="cards-grid achievements-grid" id="achievementsGrid"></div></div>
+        <div class="tab-pane" id="pane-journal" role="tabpanel" hidden><div class="pane-heading"><h3>ЛЕТОПИСЬ ДЕЙСТВИЙ</h3><p>Последние события цикла.</p></div><ul class="journal" id="journalList"></ul><div class="save-actions"><button type="button" id="exportSave" class="outline-muted">ЭКСПОРТ СОХРАНЕНИЯ</button><label class="import-label outline-muted" for="importSave">ИМПОРТ СОХРАНЕНИЯ</label><input id="importSave" type="file" accept="application/json,.json" hidden><button type="button" id="resetBtn" class="danger">СБРОСИТЬ ПРОГРЕСС</button></div></div>
+      </section>
     </main>
-    <footer><span>DRACHIT INFINITY ENGINE v1.0</span><span>100% мем · 0% смысла</span></footer>
+    <footer><span>ДРАЧИТЬ III <b>✦</b> ХРОНИКИ БЕСКОНЕЧНОСТИ</span><span>ЦИКЛ НЕ ЗНАЕТ КОНЦА.</span></footer>
   </div>
-  <div class="ticker" aria-hidden="true"><div class="ticker-track">💀 ДРАЧИТЬ ∞ &nbsp;&nbsp; • &nbsp;&nbsp; СТАТУС: БЕСКОНЕЧНО &nbsp;&nbsp; • &nbsp;&nbsp; ЕЩЁ ОДИН ЦИКЛ 💀 &nbsp;&nbsp; • &nbsp;&nbsp; ДРАЧИТЬ ∞ &nbsp;&nbsp; • &nbsp;&nbsp; СТАТУС: БЕСКОНЕЧНО &nbsp;&nbsp; • &nbsp;&nbsp; ЕЩЁ ОДИН ЦИКЛ 💀 &nbsp;&nbsp; • &nbsp;&nbsp; </div></div>
-  <script>
-  (() => {
-    const counterEl = document.getElementById('counter');
-    const toggleEl = document.getElementById('toggle');
-    const resetEl = document.getElementById('reset');
-    const speedEl = document.getElementById('speed');
-    const speedValueEl = document.getElementById('speedValue');
-    const statusEl = document.getElementById('statusText');
-    const storageKey = 'drachit-infinity-count-v1';
-    let count = 0;
-    try {
-      const saved = Number(localStorage.getItem(storageKey));
-      if (Number.isSafeInteger(saved) && saved >= 0) count = saved;
-    } catch (_) { /* localStorage may be disabled */ }
-    let running = true;
-    let accumulator = 0;
-    let previous = performance.now();
-    let lastStored = previous;
-    const formatter = new Intl.NumberFormat('ru-RU');
-    const render = () => { counterEl.textContent = formatter.format(count); };
-    const save = () => { try { localStorage.setItem(storageKey, String(count)); } catch (_) {} };
-    const setRunning = (next) => {
-      running = next;
-      document.body.classList.toggle('running', running);
-      toggleEl.textContent = running ? '⏸ ПРИОСТАНОВИТЬ' : '▶ ДРАЧИТЬ ДАЛЬШЕ';
-      statusEl.textContent = running ? 'ДРАЧИТЬ В ПРОЦЕССЕ...' : 'ПАУЗА. ЧЕРЕП ОТДЫХАЕТ.';
-    };
-    const setSpeed = () => { speedValueEl.textContent = speedEl.value + '×/сек'; };
-    toggleEl.addEventListener('click', () => setRunning(!running));
-    resetEl.addEventListener('click', () => { count = 0; accumulator = 0; render(); save(); });
-    speedEl.addEventListener('input', setSpeed);
-    document.addEventListener('visibilitychange', () => { previous = performance.now(); save(); });
-    function frame(now) {
-      const elapsed = Math.min((now - previous) / 1000, 0.25);
-      previous = now;
-      if (running && Number.isSafeInteger(count)) {
-        accumulator += elapsed * Number(speedEl.value);
-        const steps = Math.floor(accumulator);
-        if (steps > 0) {
-          count = Math.min(Number.MAX_SAFE_INTEGER, count + steps);
-          accumulator -= steps;
-          render();
-        }
-      }
-      if (now - lastStored > 1500) { save(); lastStored = now; }
-      requestAnimationFrame(frame);
-    }
-    render(); setSpeed(); setRunning(true); requestAnimationFrame(frame);
-  })();
-  </script>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div class="float-layer" id="floatLayer" aria-hidden="true"></div>
 </body>
 </html>
